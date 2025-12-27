@@ -1,11 +1,8 @@
 <script setup lang="ts">
+import { registerAPI } from '@/apis/user'
+import { showFailToast, showLoadingToast, showSuccessToast } from 'vant'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
-// 获取 vue 路由器实例，需要写到 setup 顶级，不能嵌套到其他函数中
-const router = useRouter()
-
-// 表单数据
 const username = ref('')
 const password = ref('')
 
@@ -20,11 +17,23 @@ const passwordRules = [
   { pattern: /^\w{6,}$/, message: '密码至少包含6个字符' },
 ]
 
-// 表单提交
-const onSubmit = () => {
-  console.log('注册信息:', username.value, password.value)
-  alert('页面即将跳转到主页')
-  router.push('/')
+const onSubmit = async () => {
+  // ⏳加载轻提示
+  showLoadingToast({
+    message: '注册中...',
+    forbidClick: true, // 禁用点击
+  })
+  try {
+    const res = await registerAPI({
+      username: username.value,
+      password: password.value,
+    })
+    // ✅成功轻提示
+    showSuccessToast('注册成功' + res)
+  } catch (error) {
+    // ❌失败轻提示
+    showFailToast('注册失败' + error)
+  }
 }
 </script>
 

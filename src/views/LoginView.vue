@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import request from '@/utils/request'
 import { ref } from 'vue'
-import { showToast } from 'vant'
+import { useRouter } from 'vue-router'
 
 // 表单数据
-const username = ref('')
-const password = ref('')
+const username = ref('sujiehao')
+const password = ref('123456')
+
+// 获取 vue 路由器实例，需要写到 setup 顶级，不能嵌套到其他函数中
+const router = useRouter()
 
 // 表单校验规则
 const usernameRules = [
@@ -18,9 +22,19 @@ const passwordRules = [
 ]
 
 // 表单提交
-const onSubmit = () => {
-  console.log('提交登录表单', { username: username.value, password: password.value })
-  showToast('登录功能待实现')
+const onSubmit = async () => {
+  try {
+    // 发送登录请求给后端服务器
+    await request.post('/h5/user/login', {
+      username: username.value, // 用户名
+      password: password.value, // 密码
+    })
+    alert('登录成功')
+    // 登录成功，跳转到首页
+    router.push('/home')
+  } catch (error) {
+    alert('登录失败' + error)
+  }
 }
 </script>
 
