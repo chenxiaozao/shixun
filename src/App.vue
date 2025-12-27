@@ -5,4 +5,9 @@
   <router-view />
 </template>
 
-<style scoped></style>
+<!-- /* style 注意这里不能用 scoped */ -->
+<style>
+:root:root {
+  --van-primary-color: #fa6d1d;
+}
+</style>
