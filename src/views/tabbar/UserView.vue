@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { showConfirmDialog } from 'vant'
 import 'vant/es/dialog/style'
+import { processAvatarUrl, handleAvatarError } from '@/utils/avatar'
 
 const userProfile = ref<UserProfile>()
 
@@ -39,13 +40,7 @@ const onLogout = async () => {
 <template>
   <div class="user-page">
     <div class="user">
-      <img
-        :src="
-          userProfile?.avatar ||
-          'http://teachoss.itheima.net/heimaQuestionMiniapp/官方默认头像%402x.png'
-        "
-        alt=""
-      />
+      <img :src="processAvatarUrl(userProfile?.avatar)" alt="" @error="handleAvatarError" />
       <h3>{{ userProfile?.name || userProfile?.username }}</h3>
     </div>
 

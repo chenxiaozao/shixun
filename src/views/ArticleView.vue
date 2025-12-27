@@ -8,6 +8,7 @@ import {
 import { showSuccessToast, showToast } from 'vant'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { processAvatarUrl, handleAvatarError } from '@/utils/avatar'
 // 获取页面路由
 const route = useRoute()
 // 获取路由参数 id
@@ -59,7 +60,7 @@ const toggleCollect = async () => {
         {{ article?.createdAt }} | {{ article?.views }} 浏览量 | {{ article?.likeCount }} 点赞数
       </p>
       <p>
-        <img :src="article?.avatar" alt="" />
+        <img :src="processAvatarUrl(article?.avatar)" alt="" @error="handleAvatarError" />
         <span>{{ article?.creator }}</span>
       </p>
     </header>

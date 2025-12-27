@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ArticleRowItem } from '@/apis/article'
+import { processAvatarUrl, handleAvatarError } from '@/utils/avatar'
 // 子组件定义 Props 接收数据
 defineProps<{
   article: ArticleRowItem
@@ -9,7 +10,7 @@ defineProps<{
   <van-cell class="article-item" :to="`/article/${article.id}`">
     <template #title>
       <div class="head">
-        <img :src="article.avatar" alt="" />
+        <img :src="processAvatarUrl(article.avatar)" alt="" @error="handleAvatarError" />
         <div class="con">
           <p class="title van-ellipsis">{{ article.stem }}</p>
 

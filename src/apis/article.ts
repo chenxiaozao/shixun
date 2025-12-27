@@ -1,5 +1,11 @@
 import request from '@/utils/request'
 
+// 操作类型枚举
+export enum OptType {
+  Like = 1, // 点赞
+  Collect = 2, // 收藏
+}
+
 // 获取面经列表参数
 export interface ArticlesParams {
   current?: number
@@ -53,7 +59,7 @@ export const getArticlesAPI = (
 }
 
 export const getArticleDetailAPI = (id: string): Promise<ServiceResponse<ArticleRowItem>> => {
-  return request.get('h5/interview/show', {
+  return request.get('/h5/interview/show', {
     params: {
       id: id,
     },
@@ -61,16 +67,16 @@ export const getArticleDetailAPI = (id: string): Promise<ServiceResponse<Article
 }
 
 export const updateLikeAPI = (id: string) => {
-  return request.post('h5/interview/opt', {
+  return request.post('/h5/interview/opt', {
     id: id,
-    optType: 1,
+    optType: OptType.Like,
   })
 }
 
 export const updateCollectAPI = (id: string) => {
-  return request.post('h5/interview/opt', {
+  return request.post('/h5/interview/opt', {
     id: id,
-    optType: 2,
+    optType: OptType.Collect,
   })
 }
 
@@ -88,7 +94,7 @@ export interface OptListResponse {
   total: number
 }
 
-// 获取喜欢列表
+// 获取点赞列表
 export const getArticlesLikeAPI = (
   params: OptListParams,
 ): Promise<ServiceResponse<OptListResponse>> => {
@@ -96,7 +102,7 @@ export const getArticlesLikeAPI = (
     params: {
       page: params.page, // 当前页
       pageSize: params.pageSize || 5, // 可选
-      optType: 1, // 表示喜欢
+      optType: OptType.Like, // 点赞
     },
   })
 }
@@ -109,7 +115,7 @@ export const getArticlesCollectAPI = (
     params: {
       page: params.page || 1, // 当前页
       pageSize: params.pageSize || 5, // 每页条数
-      optType: 2, // 操作类型: 1->点赞, 2->收藏
+      optType: OptType.Collect, // 收藏
     },
   })
 }
