@@ -42,7 +42,7 @@ jobs:
       - name: Upload artifact (dist)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: docs
 
   deploy:
     runs-on: ubuntu-latest
